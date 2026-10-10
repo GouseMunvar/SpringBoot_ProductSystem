@@ -52,4 +52,16 @@ INSERT INTO PRODUCT
 VALUES
     (8, 'Portable Speaker', 4499.00, 'Waterproof Bluetooth portable speaker', 'Audio',
      '2024-08-12', 'JBL', true, 60,
+
      'speaker.jpg', 'image/jpeg', NULL);
+INSERT INTO users (id, username, password) VALUES
+                                              (1, 'john_doe', 'pass123'),
+                                              (2, 'alice_smith', 'alice456'),
+                                              (3, 'bob_wilson', 'bob789'),
+                                              (4, 'emma_jones', 'emma123'),
+                                              (5, 'david_brown', 'david456'),
+                                              (6, 'sophia_miller', 'sophia789'),
+                                              (7, 'michael_davis', 'mike123'),
+                                              (8, 'olivia_taylor', 'olivia456'),
+                                              (9, 'james_anderson', 'james789'),
+                                              (10, 'ava_thomas', 'ava123');

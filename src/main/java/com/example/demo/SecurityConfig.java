@@ -1,52 +1,52 @@
 
-        package com.example.demo;
+package com.example.demo;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    @Order(1)
+    public SecurityFilterChain h2SecurityFilterChain(
+            HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable());
-
-        http.authorizeHttpRequests(request ->
-                request.anyRequest().authenticated()
-        );
-
-        http.httpBasic(basic -> {});
-
-        http.sessionManagement(session ->
-                session.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS
+        http
+                .securityMatcher("/h2-console/**")
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()
                 )
-        );
+                .headers(headers ->
+                        headers.frameOptions(frame -> frame.sameOrigin())
+                );
 
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    @Order(2)
+    public SecurityFilterChain applicationSecurityFilterChain(
+            HttpSecurity http) throws Exception {
 
-        UserDetails user1 = User.withDefaultPasswordEncoder()
-                .username("kiran")
-                .password("kiran")
-                .roles("USER")
-                .build();
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/register", "/login").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(basic -> {})
+                .csrf(csrf -> csrf.disable());
 
-        return new InMemoryUserDetailsManager(user1);
+        return http.build();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
-
