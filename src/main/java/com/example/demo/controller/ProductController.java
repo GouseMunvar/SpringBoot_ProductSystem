@@ -50,7 +50,7 @@ public class ProductController {
 
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/products/admin/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product updatedProduct) {
         Product existingProduct = service.getProductById(id);
         if (existingProduct == null) {

@@ -20,11 +20,11 @@ public class UserService {
     }
 
     public ResponseEntity<String> registerUser(
-            String username, String password, int id) {
+            String username, String password, int id,String role) {
 
         String encodedPassword = bcrypt.encode(password);
 
-        User user = new User(id, username, encodedPassword);
+        User user = new User(id, username, encodedPassword,role);
         userRepo.save(user);
 
         return ResponseEntity.ok("User registered successfully");

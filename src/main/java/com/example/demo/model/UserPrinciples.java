@@ -10,28 +10,27 @@ import java.util.List;
 
  public class UserPrinciples implements UserDetails {
 
-    private String username;
-    private String password;
+    private User user;
 
-    public UserPrinciples(String username, String password) {
-        this.username = username;
-        this.password = password;
+
+    public UserPrinciples(User user) {
+        this.user = user;
     }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
      @Override
      public String getPassword() {
-         return "{noop}" + password;
+         return user.getPassword();
      }
 
 

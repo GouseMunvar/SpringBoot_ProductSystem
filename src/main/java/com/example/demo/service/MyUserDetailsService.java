@@ -17,6 +17,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepo repo;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 
@@ -27,7 +28,7 @@ public class MyUserDetailsService implements UserDetailsService {
         if(user==null){
             throw new UsernameNotFoundException("User not found");
         }
-        return new UserPrinciples(user.getUsername(),user.getPassword());
+        return new UserPrinciples(user);
     }
 
 }

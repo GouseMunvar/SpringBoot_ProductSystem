@@ -20,7 +20,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
-        return userService.registerUser(user.getUsername(), user.getPassword(), user.getId());
+        return userService.registerUser(user.getUsername(), user.getPassword(), user.getId(),user.getRole());
     }
 
     @PostMapping("/login")
