@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
+import com.example.demo.service.JWTService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JWTService jwtService;
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         return userService.registerUser(user.getUsername(), user.getPassword(), user.getId(),user.getRole());
@@ -29,7 +33,9 @@ public class UserController {
         String username = data.get("username");
         String password = data.get("password");
 
-        return userService.loginUser(username, password);
+        String token = jwtService.generateToken(username);
+
+        return ResponseEntity.ok(token);
     }
 
 
