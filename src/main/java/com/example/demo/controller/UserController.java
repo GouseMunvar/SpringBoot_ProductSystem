@@ -5,10 +5,7 @@ import com.example.demo.service.JWTService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -37,6 +34,20 @@ public class UserController {
 
         return ResponseEntity.ok(token);
     }
+
+
+    @PostMapping("/products/{userId}")
+    public ResponseEntity<?> addProduct(@PathVariable String userId, @RequestBody Map<String,String> data){
+
+        Integer productId=Integer.valueOf(data.get("productId"));
+        Integer quantity=Integer.valueOf(data.get("quantity"));
+
+        return userService.addProduct(Integer.parseInt(userId),productId,quantity);
+
+
+
+    }
+
 
 
 
